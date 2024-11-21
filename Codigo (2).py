@@ -128,6 +128,9 @@ def separar_nombre_dosis_presentacion(medicamento):
 # Aplicar la función de separación
 data[['Nombre', 'Dosis', 'Presentacion']] = data['Medicine Name'].apply(separar_nombre_dosis_presentacion)
 
+# Eliminar "mcg" de la columna 'Presentacion', asegurando que se elimine en cualquier contexto
+data['Presentacion'] = data['Presentacion'].str.replace(r'\bmcg\b', '', regex=True).str.strip()
+
 # Eliminar filas donde 'Nombre', 'Dosis' o 'Presentacion' estén vacíos
 data = data[data['Nombre'].notnull() & (data['Nombre'] != '') & 
             data['Dosis'].notnull() & (data['Dosis'] != '') &
@@ -145,7 +148,6 @@ data = data[['Nombre', 'Dosis', 'Presentacion', 'nombres_componentes', 'cantidad
 
 # Mostrar los primeros resultados
 print(data.head(60))
-
 
 
 
